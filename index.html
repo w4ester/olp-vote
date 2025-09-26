@@ -304,6 +304,26 @@
                     </div>
                 </div>
                 
+                <!-- Optional Questions/Specifications Section -->
+                <div class="voting-item" style="background: #fff9e6; border-color: #ffc107;">
+                    <div class="item-header">
+                        <div>
+                            <div class="item-title">Additional Input</div>
+                            <span class="item-type" style="background: #ffc107; color: #333;">Optional</span>
+                        </div>
+                    </div>
+                    <p style="color: #6c757d; margin-bottom: 15px;">
+                        If there are key technical details you think are needed before a full vote, please let us know:
+                    </p>
+                    <textarea 
+                        id="additional-specs" 
+                        name="additional-specs"
+                        placeholder="Enter any questions, concerns, or specifications you need addressed before making your final vote..."
+                        style="width: 100%; min-height: 120px; padding: 12px; border: 2px solid #e9ecef; border-radius: 5px; font-family: inherit; font-size: 1rem; resize: vertical; transition: border-color 0.3s;"
+                        onfocus="this.style.borderColor='#ffc107'" 
+                        onblur="this.style.borderColor='#e9ecef'"></textarea>
+                </div>
+                
                 <div class="submit-section">
                     <button type="submit" class="submit-btn">Submit Votes</button>
                 </div>
@@ -320,6 +340,9 @@
             const aiVote = document.querySelector('input[name="ai-vote"]:checked')?.value;
             const ccgVote = document.querySelector('input[name="ccg-vote"]:checked')?.value;
             
+            // Get additional specifications
+            const additionalSpecs = document.getElementById('additional-specs').value;
+            
             // Validate all votes are selected
             if (!cteVote || !aiVote || !ccgVote) {
                 alert('Please vote on all items before submitting.');
@@ -328,7 +351,7 @@
             
             // Create email body
             const subject = 'OLP Voting Results - 2025 Recommendations & Actions';
-            const body = `OLP Voting Results
+            let body = `OLP Voting Results
 
 Submitted: ${new Date().toLocaleString()}
 
@@ -344,7 +367,19 @@ VOTES:
 3. Conservation Careers Guide Update (Action)
    Vote: ${ccgVote}
 
+==========================================`;
+
+            // Add additional specifications if provided
+            if (additionalSpecs.trim()) {
+                body += `
+
+ADDITIONAL QUESTIONS/SPECIFICATIONS NEEDED:
 ==========================================
+${additionalSpecs}
+==========================================`;
+            }
+            
+            body += `
 
 Submitted via OLP Voting Form`;
             
